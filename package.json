@@ -3,22 +3,23 @@
   "description": "The Discord bot for Campfire Stories.",
   "main": "src/main/index.ts",
   "scripts": {
-    "start": "node -r dotenv/config -r ts-node/register .",
-    "dev": "nodemon --exec npm start"
+    "start": "dotenv -- node -r ts-node/register .",
+    "dev": "nodemon --exec npm start",
+    "schema/push": "dotenv -- drizzle-kit push:mysql",
+    "schema/generate": "dotenv -- pnpm drizzle-kit generate:mysql",
+    "schema/migrate": "dotenv -- node -r ts-node/register tools/migrate.ts"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.3.0",
+    "drizzle-orm": "^0.29.1",
+    "mysql2": "^3.6.5",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.13.2",
-    "@typescript-eslint/parser": "^6.13.2",
-    "eslint": "^8.0.1",
-    "eslint-config-standard-with-typescript": "^40.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
-    "eslint-plugin-promise": "^6.0.0",
+    "@types/node": "^20.10.3",
+    "drizzle-kit": "^0.20.6",
     "typescript": "^5.3.2"
   }
 }
