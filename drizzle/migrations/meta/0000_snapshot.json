@@ -1,0 +1,235 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "bbb18270-b14d-407d-aed8-2bb49ae2e2ea",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "pages": {
+      "name": "pages",
+      "columns": {
+        "story_id": {
+          "name": "story_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "page_id": {
+          "name": "page_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "embeds": {
+          "name": "embeds",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('[]')"
+        },
+        "vars_actions": {
+          "name": "vars_actions",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('[]')"
+        },
+        "choices": {
+          "name": "choices",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('[]')"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "pages_story_id_stories_story_id_fk": {
+          "name": "pages_story_id_stories_story_id_fk",
+          "tableFrom": "pages",
+          "tableTo": "stories",
+          "columnsFrom": [
+            "story_id"
+          ],
+          "columnsTo": [
+            "story_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_pk": {
+          "name": "users_pk",
+          "columns": [
+            "story_id",
+            "page_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "stories": {
+      "name": "stories",
+      "columns": {
+        "story_id": {
+          "name": "story_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "color": {
+          "name": "color",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 16777215
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(4096)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'A description has not been set'"
+        },
+        "first_page": {
+          "name": "first_page",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "stories_story_id": {
+          "name": "stories_story_id",
+          "columns": [
+            "story_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "guild_id": {
+          "name": "guild_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "story_id": {
+          "name": "story_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "page_id": {
+          "name": "page_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "users_story_id_page_id_pages_story_id_page_id_fk": {
+          "name": "users_story_id_page_id_pages_story_id_page_id_fk",
+          "tableFrom": "users",
+          "tableTo": "pages",
+          "columnsFrom": [
+            "story_id",
+            "page_id"
+          ],
+          "columnsTo": [
+            "story_id",
+            "page_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_guild_id": {
+          "name": "users_guild_id",
+          "columns": [
+            "guild_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "user_vars": {
+      "name": "user_vars",
+      "columns": {
+        "guild_id": {
+          "name": "guild_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "value": {
+          "name": "value",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_vars_guild_id_users_guild_id_fk": {
+          "name": "user_vars_guild_id_users_guild_id_fk",
+          "tableFrom": "user_vars",
+          "tableTo": "users",
+          "columnsFrom": [
+            "guild_id"
+          ],
+          "columnsTo": [
+            "guild_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "user_vars_guild_id": {
+          "name": "user_vars_guild_id",
+          "columns": [
+            "guild_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

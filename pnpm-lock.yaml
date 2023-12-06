@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  discord-api-types:
+    specifier: ^0.37.65
+    version: 0.37.65
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -955,6 +958,10 @@ packages:
     dependencies:
       heap: 0.2.7
     dev: true
+
+  /discord-api-types@0.37.65:
+    resolution: {integrity: sha512-CQHW3Nu04LEHIj1Xps/sfGhTdrowilxnek2tirpLhwvrmgmLr1C6A+4JFLs+0kJMH2IX2QgDyA9GfNehqN+xPQ==}
+    dev: false
 
   /dotenv-cli@7.3.0:
     resolution: {integrity: sha512-314CA4TyK34YEJ6ntBf80eUY+t1XaFLyem1k9P0sX1gn30qThZ5qZr/ZwE318gEnzyYP9yj9HJk6SqwE0upkfw==}
