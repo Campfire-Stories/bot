@@ -10,7 +10,7 @@ import { pages } from "./pages";
 export const users = mysqlTable(
   "users",
   {
-    userId: bigint("guild_id", { mode: "bigint", unsigned: true }).primaryKey(),
+    userId: bigint("user_id", { mode: "bigint", unsigned: true }).primaryKey(),
     storyId: int("story_id"),
     pageId: int("page_id"),
   },

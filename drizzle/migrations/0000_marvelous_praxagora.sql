@@ -16,19 +16,19 @@ CREATE TABLE `stories` (
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
-	`guild_id` bigint unsigned NOT NULL,
+	`user_id` bigint unsigned NOT NULL,
 	`story_id` int,
 	`page_id` int,
-	CONSTRAINT `users_guild_id` PRIMARY KEY(`guild_id`)
+	CONSTRAINT `users_user_id` PRIMARY KEY(`user_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `user_vars` (
-	`guild_id` bigint unsigned NOT NULL,
-	`key` varchar(128) NOT NULL,
+	`user_id` bigint unsigned NOT NULL,
+	`name` varchar(128) NOT NULL,
 	`value` int NOT NULL DEFAULT 0,
-	CONSTRAINT `user_vars_guild_id` PRIMARY KEY(`guild_id`)
+	CONSTRAINT `user_vars_user_id` PRIMARY KEY(`user_id`)
 );
 --> statement-breakpoint
 ALTER TABLE `pages` ADD CONSTRAINT `pages_story_id_stories_story_id_fk` FOREIGN KEY (`story_id`) REFERENCES `stories`(`story_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `users` ADD CONSTRAINT `users_story_id_page_id_pages_story_id_page_id_fk` FOREIGN KEY (`story_id`,`page_id`) REFERENCES `pages`(`story_id`,`page_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `user_vars` ADD CONSTRAINT `user_vars_guild_id_users_guild_id_fk` FOREIGN KEY (`guild_id`) REFERENCES `users`(`guild_id`) ON DELETE no action ON UPDATE no action;
+ALTER TABLE `user_vars` ADD CONSTRAINT `user_vars_user_id_users_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE no action ON UPDATE no action;

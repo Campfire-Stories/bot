@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "bbb18270-b14d-407d-aed8-2bb49ae2e2ea",
+  "id": "2d469ab5-4a7e-4795-b18d-7029aec6ab70",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "pages": {
@@ -123,8 +123,8 @@
     "users": {
       "name": "users",
       "columns": {
-        "guild_id": {
-          "name": "guild_id",
+        "user_id": {
+          "name": "user_id",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -164,10 +164,10 @@
         }
       },
       "compositePrimaryKeys": {
-        "users_guild_id": {
-          "name": "users_guild_id",
+        "users_user_id": {
+          "name": "users_user_id",
           "columns": [
-            "guild_id"
+            "user_id"
           ]
         }
       },
@@ -176,15 +176,15 @@
     "user_vars": {
       "name": "user_vars",
       "columns": {
-        "guild_id": {
-          "name": "guild_id",
+        "user_id": {
+          "name": "user_id",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "key": {
-          "name": "key",
+        "name": {
+          "name": "name",
           "type": "varchar(128)",
           "primaryKey": false,
           "notNull": true,
@@ -201,25 +201,25 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "user_vars_guild_id_users_guild_id_fk": {
-          "name": "user_vars_guild_id_users_guild_id_fk",
+        "user_vars_user_id_users_user_id_fk": {
+          "name": "user_vars_user_id_users_user_id_fk",
           "tableFrom": "user_vars",
           "tableTo": "users",
           "columnsFrom": [
-            "guild_id"
+            "user_id"
           ],
           "columnsTo": [
-            "guild_id"
+            "user_id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "user_vars_guild_id": {
-          "name": "user_vars_guild_id",
+        "user_vars_user_id": {
+          "name": "user_vars_user_id",
           "columns": [
-            "guild_id"
+            "user_id"
           ]
         }
       },
