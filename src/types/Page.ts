@@ -2,6 +2,7 @@ import type { ButtonStyle } from "discord-api-types/v10";
 
 export interface PageVar {
   key: string;
+  condition: string;
   value: string;
 };
 
@@ -9,7 +10,7 @@ export interface PageChoice {
   style: ButtonStyle;
   label: string;
 
-  isVisible: { condition: string; };
+  isVisibleCondition: string;
   gotos: PageChoiceGoto[];
 }
 
