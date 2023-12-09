@@ -1,10 +1,11 @@
 {
   "name": "campfire-stories-bot",
   "description": "The Discord bot for Campfire Stories.",
-  "main": "src/main/index.ts",
+  "main": "src/http/clusters.ts",
   "scripts": {
     "start": "dotenv -- node -r ts-node/register .",
     "dev": "nodemon --exec npm start",
+    "interactions/create": "dotenv -- node -r ts-node/register tools/commands.ts",
     "schema/push": "dotenv -- drizzle-kit push:mysql",
     "schema/generate": "dotenv -- pnpm drizzle-kit generate:mysql",
     "schema/migrate": "dotenv -- node -r ts-node/register tools/migrate.ts"
@@ -14,6 +15,7 @@
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
     "drizzle-orm": "^0.29.1",
+    "interactions.js": "^1.2.15",
     "mysql2": "^3.6.5",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.1"

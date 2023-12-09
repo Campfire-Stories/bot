@@ -10,7 +10,9 @@ pnpm i # install dep
 pnpm start # start bot
 pnpm dev # start dev
 
-schema/push # pushes schema (don't use in prod)
-schema/generate # generates sql files (for migrations)
-schema/migrate # migrate to update sql (must generate first)
+pnpm interactions/create # create discord interactions
+
+pnpm schema/push # pushes schema (don't use in prod)
+pnpm schema/generate # generates sql files (for migrations)
+pnpm schema/migrate # migrate to update sql (must generate first)
 ```
