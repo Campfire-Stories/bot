@@ -1,5 +1,9 @@
 import { client } from "../src/http/client";
 
+const storyChoices = [
+  { name: "Default", value: "0" },
+];
+
 client.setAppCommands([
   {
     name: "story",
@@ -17,12 +21,24 @@ client.setAppCommands([
         options: [
           {
             type: 3,
-            name: "new",
+            name: "story",
             description: "The story ID",
             required: true,
-            choices: [
-              { name: "Default", value: "default" },
-            ],
+            choices: storyChoices,
+          },
+        ],
+      },
+      {
+        type: 1,
+        name: "info",
+        description: "Check a story information",
+        options: [
+          {
+            type: 3,
+            name: "story",
+            description: "The story ID",
+            required: true,
+            choices: storyChoices,
           },
         ],
       },

@@ -10,7 +10,8 @@ CREATE TABLE `pages` (
 CREATE TABLE `stories` (
 	`story_id` int NOT NULL,
 	`color` int NOT NULL DEFAULT 16777215,
-	`name` varchar(4096) NOT NULL DEFAULT 'A description has not been set',
+	`name` varchar(256) NOT NULL DEFAULT 'A story name has not been set',
+	`description` varchar(4096) NOT NULL DEFAULT 'A description has not been set',
 	`first_page` int NOT NULL DEFAULT 0,
 	CONSTRAINT `stories_story_id` PRIMARY KEY(`story_id`)
 );

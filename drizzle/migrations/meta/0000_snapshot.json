@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "2d469ab5-4a7e-4795-b18d-7029aec6ab70",
+  "id": "91b6da1e-c01c-4e8b-8ff1-e9574c1aa5b5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "pages": {
@@ -93,6 +93,14 @@
         },
         "name": {
           "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'A story name has not been set'"
+        },
+        "description": {
+          "name": "description",
           "type": "varchar(4096)",
           "primaryKey": false,
           "notNull": true,

@@ -2,7 +2,7 @@ import { eq, and } from "drizzle-orm";
 import { db } from "./database";
 import { pages, stories, users, userVars } from "./models";
 
-async function getStoryFirstPage(storyId: number) {
+export async function getStoryFirstPage(storyId: number) {
   return (
     await db
       .select({ firstPage: stories.firstPage })
@@ -56,6 +56,8 @@ export async function getUser(userId: string) {
 
 export async function setUserStory(userId: string, storyId: number) {
   const pageId = await getStoryFirstPage(storyId);
+  if (typeof pageId !== "number") return false;
+
   await db
     .insert(users)
     .values({
@@ -69,6 +71,7 @@ export async function setUserStory(userId: string, storyId: number) {
         pageId
       }
     });
+  return true;
 }
 
 export async function setUserPage(userId: string, pageId: number) {
