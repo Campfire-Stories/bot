@@ -36,22 +36,30 @@ export async function getPage(storyId: number, pageId: number) {
   )[0];
 }
 
-export async function getUser(userId: bigint) {
-  return (
+export async function getUser(userId: string) {
+  const user = (
     await db
       .select()
       .from(users)
-      .where(eq(users.userId, userId))
+      .where(eq(users.userId, BigInt(userId)))
       .limit(1)
   )[0];
+
+  if (!user) return null;
+
+  return {
+    storyId: user.storyId,
+    userId: user.userId.toString(),
+    pageId: user.pageId,
+  };
 }
 
-export async function setUserStory(userId: bigint, storyId: number) {
+export async function setUserStory(userId: string, storyId: number) {
   const pageId = await getStoryFirstPage(storyId);
   await db
     .insert(users)
     .values({
-      userId,
+      userId: BigInt(userId),
       storyId,
       pageId
     })
@@ -63,21 +71,21 @@ export async function setUserStory(userId: bigint, storyId: number) {
     });
 }
 
-export async function setUserPage(userId: bigint, pageId: number) {
+export async function setUserPage(userId: string, pageId: number) {
   await db
     .update(users)
     .set({ pageId })
-    .where(eq(users.userId, userId));
+    .where(eq(users.userId, BigInt(userId)));
 }
 
-export async function getUserVar(userId: bigint, name: string) {
+export async function getUserVar(userId: string, name: string) {
   return (
     await db
       .select()
       .from(userVars)
       .where(
         and(
-          eq(userVars.userId, userId),
+          eq(userVars.userId, BigInt(userId)),
           eq(userVars.name, name)
         )
       )
@@ -85,7 +93,7 @@ export async function getUserVar(userId: bigint, name: string) {
   )[0] || 0;
 }
 
-export async function setUserVar(userId: bigint, name: string, value: number) {
+export async function setUserVar(userId: string, name: string, value: number) {
   if (value != 0) {
     // Enforcing MySQL limits
     if (value < -2147483648) value = -2147483648;
@@ -95,7 +103,7 @@ export async function setUserVar(userId: bigint, name: string, value: number) {
     await db
       .insert(userVars)
       .values({
-        userId,
+        userId: BigInt(userId),
         name,
         value
       })
@@ -108,7 +116,7 @@ export async function setUserVar(userId: bigint, name: string, value: number) {
       .delete(userVars)
       .where(
         and(
-          eq(userVars.userId, userId),
+          eq(userVars.userId, BigInt(userId)),
           eq(userVars.name, name),
         )
       );

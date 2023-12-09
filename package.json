@@ -4,11 +4,22 @@
   "main": "src/http/clusters.ts",
   "scripts": {
     "start": "dotenv -- node -r ts-node/register .",
-    "dev": "nodemon --exec npm start",
+    "dev": "nodemon",
     "interactions/create": "dotenv -- node -r ts-node/register tools/commands.ts",
     "schema/push": "dotenv -- drizzle-kit push:mysql",
     "schema/generate": "dotenv -- pnpm drizzle-kit generate:mysql",
     "schema/migrate": "dotenv -- node -r ts-node/register tools/migrate.ts"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "./src"
+    ],
+    "exec": "npm start",
+    "ext": "ts, js"
   },
   "dependencies": {
     "discord-api-types": "^0.37.65",

@@ -21,7 +21,7 @@ client.setAppCommands([
             description: "The story ID",
             required: true,
             choices: [
-              { name: "default", value: "0" },
+              { name: "Default", value: "default" },
             ],
           },
         ],
