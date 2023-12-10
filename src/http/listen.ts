@@ -2,7 +2,7 @@ import { Embed } from "interactions.js";
 import { Parser } from "expr-eval";
 import { client } from "./client";
 import { getUser, getStory, setUserStory, getPage, getUserVariables, setUserVariable, resetUserVariables } from "../lib/db";
-import { Page } from "../types/Page";
+import { Page, TransformedVariables } from "../types/Page";
 
 client.on("interactionCreate", async interaction => {
   if (interaction.commandName === "story") {
@@ -23,9 +23,9 @@ client.on("interactionCreate", async interaction => {
       await resetUserVariables(interaction.member.id);
       
       const pageInfo = await getPage(storyId, pageId);
-      await preDisplayPageActions(pageInfo, interaction.member.id);
+      const variables = await preDisplayPageActions(pageInfo, interaction.member.id);
 
-      return handleStory(interaction);
+      return handleStory(interaction, variables);
     } else if (subcommand.name === "info") {
       const storyId = subcommand.options[0].value;
       const storyInfo = await getStory(storyId);
@@ -46,7 +46,7 @@ client.on("interactionCreate", async interaction => {
   }
 });
 
-async function handleStory(interaction: any) {
+async function handleStory(interaction: any, variables?: TransformedVariables) {
   const userId = interaction.member.id;
   const user = await getUser(userId);
 
@@ -62,15 +62,19 @@ async function handleStory(interaction: any) {
   const storyId = user.storyId;
   const pageId = user.pageId;
 
-  return await displayPage(interaction, storyId, pageId);
+  return await displayPage(interaction, storyId, pageId, variables);
 }
 
-async function preDisplayPageActions(page: Page, userId: string) {
-  const variables: { [key: string]: number } = {};
+async function transformUserVariables(userId: string) {
+  const variables: TransformedVariables = {};
   for (const { name, value } of await getUserVariables(userId)) {
     variables[name] = value;
   }
+  return variables;
+}
 
+async function preDisplayPageActions(page: Page, userId: string) {
+  const variables = await transformUserVariables(userId);
   for (const { name, condition, value } of page.vars) {
     if (Parser.evaluate(condition, variables)) {
       await setUserVariable(
@@ -80,11 +84,10 @@ async function preDisplayPageActions(page: Page, userId: string) {
       );
     }
   }
-
   return variables;
 }
 
-async function displayPage(interaction: any, storyId: number, pageId: number) {
+async function displayPage(interaction: any, storyId: number, pageId: number, fetchedVariables?: TransformedVariables) {
   const pageInfo = await getPage(storyId, pageId);
 
   if (!pageInfo) return interaction.editReply({
@@ -97,7 +100,10 @@ async function displayPage(interaction: any, storyId: number, pageId: number) {
     });
   }
 
-  // WIP handle choices somewhere
+  const variables = fetchedVariables || transformUserVariables(interaction.member.id);
+  for (const choice of pageInfo.choices) {
+    // choice.isVisibleCondition
+  }
   
   return interaction.editReply({
     embeds: pageInfo.embeds,

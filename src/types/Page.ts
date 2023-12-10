@@ -1,5 +1,7 @@
 import type { APIEmbed, ButtonStyle } from "discord-api-types/v10";
 
+export interface TransformedVariables { [key: string]: number }
+
 export interface Page {
   storyId: number;
   pageId: number;
