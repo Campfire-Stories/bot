@@ -11,6 +11,6 @@ for (let i = 0; i < clusterCount; i++) {
   cluster.fork();
 }
 
-cluster.on('exit', worker => {
+cluster.on("exit", worker => {
   console.log(`#${worker.process.pid} Worker died.`);
 });
