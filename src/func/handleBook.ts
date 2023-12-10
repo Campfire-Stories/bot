@@ -3,7 +3,7 @@ import { getUser } from "../lib/db";
 import { displayPage } from "./displayPage";
 import type { TransformedVariables } from "../types/Page";
 
-export async function handleBook(interaction: any, variables?: TransformedVariables) {
+export async function handleBook(interaction: any, variables?: TransformedVariables, newStory = false) {
   const user = await getUser(interaction.user.id);
 
   if (!user) return interaction.editReply({
@@ -15,8 +15,5 @@ export async function handleBook(interaction: any, variables?: TransformedVariab
     ],
   });
 
-  const bookId = user.bookId;
-  const pageId = user.pageId;
-
-  return await displayPage(interaction, bookId, pageId, variables);
+  return await displayPage(interaction, user, variables);
 }

@@ -50,11 +50,12 @@ export async function getUser(userId: string) {
   return transformUser(user);
 }
 
-export async function setUserBook(userId: string, bookId: number, messageId: string) {
+export async function setUserBook(userId: string, bookId: number, channelId: string, messageId: string) {
   const pageId = await getBookFirstPage(bookId);
   if (typeof pageId !== "number") return null;
 
-  const messageIdBigInt = BigInt(messageId);
+  // const channelIdBigInt = BigInt(channelId);
+  // const messageIdBigInt = BigInt(messageId);
 
   await db
     .insert(users)
@@ -62,23 +63,33 @@ export async function setUserBook(userId: string, bookId: number, messageId: str
       userId: BigInt(userId),
       bookId,
       pageId,
-      messageId: messageIdBigInt
+      channelId, // : channelIdBigInt
+      messageId, // : messageIdBigInt
     })
     .onDuplicateKeyUpdate({
       set: {
         bookId,
         pageId,
-        messageId: messageIdBigInt
-      }
+        channelId, // : channelIdBigInt
+        messageId // : messageIdBigInt
+      },
     });
   
   return pageId;
 }
 
-export async function setUserPage(userId: string, pageId: number, messageId: string) {
+export async function setUserPage(userId: string, pageId: number) {
   await db
     .update(users)
-    .set({ pageId, messageId: BigInt(messageId) })
+    .set({ pageId })
+    .where(eq(users.userId, BigInt(userId)));
+}
+
+export async function setUserMessage(userId: string, channelId: string, messageId: string) {
+  await db
+    .update(users)
+    // .set({ pageId, channelId: BigInt(channelId), messageId: BigInt(messageId) })
+    .set({ channelId, messageId })
     .where(eq(users.userId, BigInt(userId)));
 }
 

@@ -1,10 +1,11 @@
 import { ActionRow, Button } from "interactions.js";
-import { getPage } from "../lib/db";
+import { getPage, setUserMessage } from "../lib/db";
 import { evaluteExpression } from "./evaluteExpression";
 import { transformVariables } from "./transformVariables";
 import type { TransformedVariables } from "../types/Page";
 
-export async function displayPage(interaction: any, bookId: number, pageId: number, fetchedVariables?: TransformedVariables) {
+export async function displayPage(interaction: any, user: { bookId: number; pageId: number; messageId: string; }, fetchedVariables?: TransformedVariables) {
+  const { bookId, pageId, messageId } = user;
   const pageInfo = await getPage(bookId, pageId);
 
   if (!pageInfo) return interaction.editReply({
@@ -39,8 +40,12 @@ export async function displayPage(interaction: any, bookId: number, pageId: numb
     }
   }
   
-  return interaction.editReply({
+  const message = await interaction.editReply({
     embeds: pageInfo.embeds,
     components,
   });
+
+  if (message.id !== messageId) {
+    await setUserMessage(interaction.user.id, message.channelId, message.id);
+  }
 }

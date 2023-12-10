@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "7f84cd18-0a05-46be-b0c3-a6057885c343",
+  "id": "d81ced97-b1e6-4494-aaa0-11cb2f748c11",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "books": {
@@ -152,9 +152,16 @@
           "notNull": true,
           "autoincrement": false
         },
+        "channel_id": {
+          "name": "channel_id",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "message_id": {
           "name": "message_id",
-          "type": "bigint unsigned",
+          "type": "varchar(128)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -186,14 +193,7 @@
           ]
         }
       },
-      "uniqueConstraints": {
-        "users_message_id_unique": {
-          "name": "users_message_id_unique",
-          "columns": [
-            "message_id"
-          ]
-        }
-      }
+      "uniqueConstraints": {}
     },
     "user_vars": {
       "name": "user_vars",

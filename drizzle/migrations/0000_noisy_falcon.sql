@@ -20,9 +20,9 @@ CREATE TABLE `users` (
 	`user_id` bigint unsigned NOT NULL,
 	`book_id` int NOT NULL,
 	`page_id` int NOT NULL,
-	`message_id` bigint unsigned NOT NULL,
-	CONSTRAINT `users_user_id` PRIMARY KEY(`user_id`),
-	CONSTRAINT `users_message_id_unique` UNIQUE(`message_id`)
+	`channel_id` varchar(128) NOT NULL,
+	`message_id` varchar(128) NOT NULL,
+	CONSTRAINT `users_user_id` PRIMARY KEY(`user_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `user_vars` (
