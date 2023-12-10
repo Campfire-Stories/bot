@@ -93,12 +93,12 @@ export async function getUserVariables(userId: string) {
 }
 
 export async function setUserVariable(userId: string, name: string, value: number) {
-  if (value != 0) {
+  if (!isNaN(value)) {
     // Enforcing MySQL limits
     if (value < -2147483648) value = -2147483648;
     if (value > 2147483647) value = 2147483647;
 
-    // If the value isn't 0, insert or update the row
+    // If the value isn't NaN, insert or update the row
     await db
       .insert(userVars)
       .values({
@@ -110,7 +110,7 @@ export async function setUserVariable(userId: string, name: string, value: numbe
         set: { value }
       });
   } else {
-    // If the value is 0, delete the row, because the value of an unset value is 0
+    // If the value is NaN, delete the row, because the value of an unset value is NaN
     await db
       .delete(userVars)
       .where(

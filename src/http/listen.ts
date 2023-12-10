@@ -76,15 +76,24 @@ async function transformUserVariables(userId: string) {
 async function preDisplayPageActions(page: Page, userId: string) {
   const variables = await transformUserVariables(userId);
   for (const { name, condition, value } of page.vars) {
-    if (Parser.evaluate(condition, variables)) {
+    if (evaluate(condition, variables)) {
       await setUserVariable(
         userId,
         name,
-        variables[name] = Parser.evaluate(value, variables) || 0,
+        variables[name] = Number(evaluate(value, variables)),
       );
     }
   }
   return variables;
+}
+
+function evaluate(value: string, variables: { [key: string]: number }) {
+  try {
+    return Parser.evaluate(value, variables);
+  } catch(err) {
+    console.error(err);
+    return 0;
+  }
 }
 
 async function displayPage(interaction: any, storyId: number, pageId: number, fetchedVariables?: TransformedVariables) {
