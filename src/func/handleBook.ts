@@ -4,8 +4,7 @@ import { displayPage } from "./displayPage";
 import type { TransformedVariables } from "../types/Page";
 
 export async function handleBook(interaction: any, variables?: TransformedVariables) {
-  const userId = interaction.member.id;
-  const user = await getUser(userId);
+  const user = await getUser(interaction.user.id);
 
   if (!user) return interaction.editReply({
     embeds: [

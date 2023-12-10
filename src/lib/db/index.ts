@@ -50,28 +50,6 @@ export async function getUser(userId: string) {
   return transformUser(user);
 }
 
-export async function getUserByMessageId(messageId: string) {
-  const usersTemp = await db
-    .select()
-    .from(users);
-
-  // facing weird drizzle issue (unless it's my fault),
-  // so i'm keeping this debug code lol
-  console.log(usersTemp);
-
-  const user = usersTemp[0];
-  // const user = (
-  //   await db
-  //     .select()
-  //     .from(users)
-  //     .where(eq(users.messageId, BigInt(messageId)))
-  //     .limit(1)
-  // )[0];
-
-  if (!user) return null;
-  return transformUser(user);
-}
-
 export async function setUserBook(userId: string, bookId: number, messageId: string) {
   const pageId = await getBookFirstPage(bookId);
   if (typeof pageId !== "number") return null;

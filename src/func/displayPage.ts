@@ -17,7 +17,7 @@ export async function displayPage(interaction: any, bookId: number, pageId: numb
     });
   }
 
-  const variables = fetchedVariables || await transformVariables(interaction.member.id);
+  const variables = fetchedVariables || await transformVariables(interaction.user.id);
   const components = [];
   for (const choice of pageInfo.choices) {
     if (evaluteExpression(choice.isVisibleCondition, variables)) {
@@ -33,7 +33,7 @@ export async function displayPage(interaction: any, bookId: number, pageId: numb
       if (choice.label) button.setLabel(choice.label);
 
       button.setDisabled(!choice.gotos.find(({ condition }) => evaluteExpression(condition, variables)));
-      button.setCustomId(`choice-${pageInfo.choices.indexOf(choice)}`);
+      button.setCustomId(`choice-${interaction.user.id}-${pageInfo.choices.indexOf(choice)}`);
       
       actionRow.addComponent(button);
     }
