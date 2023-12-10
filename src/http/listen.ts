@@ -72,15 +72,11 @@ async function preDisplayPageActions(page: Page, userId: string) {
   }
 
   for (const { name, condition, value } of page.vars) {
-    const conditionExecuted = Parser.evaluate(condition, variables);
-    console.log("cc", conditionExecuted);
-    if (conditionExecuted) {
-      const valueExecuted = variables[name] = Parser.evaluate(value, variables) || 0;
-      console.log("vc", valueExecuted)
+    if (Parser.evaluate(condition, variables)) {
       await setUserVariable(
         userId,
         name,
-        valueExecuted,
+        variables[name] = Parser.evaluate(value, variables) || 0,
       );
     }
   }
