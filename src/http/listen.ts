@@ -1,6 +1,6 @@
 import { Embed } from "interactions.js";
 import { client } from "./client";
-import { getBook, setUserBook, getPage, resetUserVariables } from "../lib/db";
+import { getBook, getPage, getUserByMessageId, setUserBook, resetUserVariables } from "../lib/db";
 import { handleVariables } from "../func/handleVariables";
 import { getOriginalInteractionResponse } from "../func/getOriginalInteractionResponse";
 import { handleBook } from "../func/handleBook";
@@ -22,15 +22,15 @@ client.on("interactionCreate", async interaction => {
           content: "An unexpected error has occured.",
         });
 
-        const pageId = await setUserBook(interaction.member.id, bookId, message.id); // WIP
+        const pageId = await setUserBook(interaction.user.id, bookId, message.id); // WIP
         if (typeof pageId !== "number") return interaction.editReply({
           content: "The story with the given book ID doesn't exist",
         });
         
-        await resetUserVariables(interaction.member.id);
+        await resetUserVariables(interaction.user.id);
         
         const pageInfo = await getPage(bookId, pageId);
-        const variables = await handleVariables(pageInfo, interaction.member.id);
+        const variables = await handleVariables(pageInfo, interaction.user.id);
   
         return handleBook(interaction, variables);
       }
@@ -52,6 +52,30 @@ client.on("interactionCreate", async interaction => {
           ],
         });
       }
+    }
+  }
+
+  if (interaction.isComponent()) {
+    if (interaction.data?.custom_id && interaction.data.custom_id.startsWith("choice-")) {
+      interaction.deferReply();
+
+      const user = await getUserByMessageId(interaction.message.id);
+      if (!user) return interaction.editReply({ content: "This is not your interaction!" });
+      if (user.userId !== interaction.user.id) return interaction.editReply({ content: "This is not your interaction!" });
+
+      const page = await getPage(user.bookId, user.pageId);
+      if (!page) return interaction.editReply({
+        content: `Missing page ID. (Book ID: \`${user.bookId}\` | Page ID: \`${user.pageId}\`)`
+      });
+
+      const choiceNumber = interaction.data.custom_id.slice("choice-".length);
+      const choice = page.choices[choiceNumber];
+      if (!choice) return interaction.editReply({
+        content: `Missing choice. (Book ID: \`${user.bookId}\` | Page ID: \`${user.pageId}\` | Choice Index: \`${choiceNumber}\`)`
+      });
+
+      console.log(choice);
+      interaction.editReply('wowie');
     }
   }
 });

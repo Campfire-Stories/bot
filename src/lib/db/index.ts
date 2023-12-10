@@ -1,6 +1,7 @@
 import { eq, and } from "drizzle-orm";
 import { db } from "./database";
 import { pages, stories, users, userVars } from "./models";
+import { transformUser } from "./transform";
 
 export async function getBookFirstPage(bookId: number) {
   return (
@@ -46,12 +47,29 @@ export async function getUser(userId: string) {
   )[0];
 
   if (!user) return null;
+  return transformUser(user);
+}
 
-  return {
-    bookId: user.bookId as number,
-    userId: user.userId.toString(),
-    pageId: user.pageId as number,
-  };
+export async function getUserByMessageId(messageId: string) {
+  const usersTemp = await db
+    .select()
+    .from(users);
+
+  // facing weird drizzle issue (unless it's my fault),
+  // so i'm keeping this debug code lol
+  console.log(usersTemp);
+
+  const user = usersTemp[0];
+  // const user = (
+  //   await db
+  //     .select()
+  //     .from(users)
+  //     .where(eq(users.messageId, BigInt(messageId)))
+  //     .limit(1)
+  // )[0];
+
+  if (!user) return null;
+  return transformUser(user);
 }
 
 export async function setUserBook(userId: string, bookId: number, messageId: string) {
@@ -75,6 +93,7 @@ export async function setUserBook(userId: string, bookId: number, messageId: str
         messageId: messageIdBigInt
       }
     });
+  
   return pageId;
 }
 

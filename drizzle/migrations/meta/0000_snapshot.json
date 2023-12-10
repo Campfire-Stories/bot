@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "1a1ec6bb-8371-4d8e-8bd4-e278193e8b48",
+  "id": "7f84cd18-0a05-46be-b0c3-a6057885c343",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "books": {
@@ -186,7 +186,14 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "users_message_id_unique": {
+          "name": "users_message_id_unique",
+          "columns": [
+            "message_id"
+          ]
+        }
+      }
     },
     "user_vars": {
       "name": "user_vars",
