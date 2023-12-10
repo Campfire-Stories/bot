@@ -2,7 +2,6 @@ import { Embed } from "interactions.js";
 import { client } from "./client";
 import { getBook, getPage, getUser, setUserBook, setUserPage, resetUserVariables } from "../lib/db";
 import { handleVariables } from "../func/handleVariables";
-import { getOriginalInteractionResponse } from "../func/getOriginalInteractionResponse";
 import { handleBook } from "../func/handleBook";
 import { transformVariables } from "../func/transformVariables";
 import { evaluteExpression } from "../func/evaluteExpression";
@@ -67,9 +66,12 @@ client.on("interactionCreate", async interaction => {
         });
   
         const user = await getUser(userId);
-        if (!user || user.messageId !== interaction.message.id) return interaction.editReply({
-          content: "The game session of the message expired.",
-        });
+        if (!user || user.messageId !== interaction.message.id) {
+          if (user) expireOldButtons(interaction, interaction.message.channelId, interaction.message.id);
+          return interaction.editReply({
+            content: "The game session of the message expired.",
+          });
+        }
   
         const pageInfo = await getPage(user.bookId, user.pageId);
         if (!pageInfo) return interaction.editReply({
