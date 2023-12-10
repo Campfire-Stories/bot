@@ -20,6 +20,7 @@ export interface PageVar {
 
 export interface PageChoice {
   style: ButtonStyle;
+  emoji: { id?: string, name?: string };
   label: string;
 
   isVisibleCondition: string;

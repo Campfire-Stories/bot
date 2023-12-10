@@ -1,3 +1,4 @@
+import { ActionRow, Button } from "interactions.js";
 import { getPage } from "../lib/db";
 import { evaluteExpression } from "./evaluteExpression";
 import { transformVariables } from "./transformVariables";
@@ -17,13 +18,29 @@ export async function displayPage(interaction: any, bookId: number, pageId: numb
   }
 
   const variables = fetchedVariables || await transformVariables(interaction.member.id);
+  const components = [];
   for (const choice of pageInfo.choices) {
     if (evaluteExpression(choice.isVisibleCondition, variables)) {
+      if (components.length % 5 === 0) {
+        components.push(new ActionRow());
+      }
 
+      const actionRow = components[components.length - 1];
+      const button = new Button();
+
+      if (choice.style) button.setStyle(choice.style);
+      if (choice.emoji) button.setEmoji(choice.emoji);
+      if (choice.label) button.setLabel(choice.label);
+
+      button.setDisabled(!choice.gotos.find(({ condition }) => evaluteExpression(condition, variables)));
+      button.setCustomId("???");
+      
+      actionRow.addComponent(button);
     }
   }
   
   return interaction.editReply({
     embeds: pageInfo.embeds,
+    components,
   });
 }
