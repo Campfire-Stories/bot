@@ -2,34 +2,34 @@ import { eq, and } from "drizzle-orm";
 import { db } from "./database";
 import { pages, stories, users, userVars } from "./models";
 
-export async function getStoryFirstPage(storyId: number) {
+export async function getBookFirstPage(bookId: number) {
   return (
     await db
-      .select({ firstPage: stories.firstPage })
+      .select({ firstPageId: stories.firstPageId })
       .from(stories)
-      .where(eq(stories.storyId, storyId))
+      .where(eq(stories.bookId, bookId))
       .limit(1)
-  )[0]?.firstPage;
+  )[0]?.firstPageId;
 }
 
-export async function getStory(storyId: number) {
+export async function getBook(bookId: number) {
   return (
     await db
       .select()
       .from(stories)
-      .where(eq(stories.storyId, storyId))
+      .where(eq(stories.bookId, bookId))
       .limit(1)
   )[0];
 }
 
-export async function getPage(storyId: number, pageId: number) {
+export async function getPage(bookId: number, pageId: number) {
   return (
     await db
       .select()
       .from(pages)
       .where(
         and(
-          eq(pages.storyId, storyId),
+          eq(pages.bookId, bookId),
           eq(pages.pageId, pageId)
         )
       ).limit(1)
@@ -48,26 +48,26 @@ export async function getUser(userId: string) {
   if (!user) return null;
 
   return {
-    storyId: user.storyId as number,
+    bookId: user.bookId as number,
     userId: user.userId.toString(),
     pageId: user.pageId as number,
   };
 }
 
-export async function setUserStory(userId: string, storyId: number) {
-  const pageId = await getStoryFirstPage(storyId);
+export async function setUserBook(userId: string, bookId: number) {
+  const pageId = await getBookFirstPage(bookId);
   if (typeof pageId !== "number") return null;
 
   await db
     .insert(users)
     .values({
       userId: BigInt(userId),
-      storyId,
+      bookId,
       pageId
     })
     .onDuplicateKeyUpdate({
       set: {
-        storyId,
+        bookId,
         pageId
       }
     });

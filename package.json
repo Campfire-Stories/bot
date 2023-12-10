@@ -5,7 +5,7 @@
   "scripts": {
     "start": "dotenv -- node -r ts-node/register .",
     "dev": "nodemon",
-    "interactions/create": "dotenv -- node -r ts-node/register tools/commands.ts",
+    "interactions/create": "dotenv -- node -r ts-node/register tools/interactions.ts",
     "schema/push": "dotenv -- drizzle-kit push:mysql",
     "schema/generate": "dotenv -- pnpm drizzle-kit generate:mysql",
     "schema/migrate": "dotenv -- node -r ts-node/register tools/migrate.ts"

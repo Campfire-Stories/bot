@@ -1,6 +1,7 @@
 import { Parser } from "expr-eval";
+import type { TransformedVariables } from "../types/Page";
 
-export function evaluteVariables(value: string, variables: { [key: string]: number }) {
+export function evaluteExpression(value: string, variables: TransformedVariables) {
   try {
     return Parser.evaluate(value, variables);
   } catch(err) {

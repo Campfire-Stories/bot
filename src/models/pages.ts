@@ -6,13 +6,13 @@ import {
 } from "drizzle-orm/mysql-core";
 import type { APIEmbed } from "discord-api-types/v10";
 
-import { stories } from "./stories";
+import { stories } from "./books";
 import type { PageVar, PageChoice } from "../types/Page";
 
 export const pages = mysqlTable(
   "pages",
   {
-    storyId: int("story_id").notNull().references(() => stories.storyId),
+    bookId: int("book_id").notNull().references(() => stories.bookId),
     pageId: int("page_id").notNull(),
     
     embeds: json("embeds").notNull().$type<APIEmbed[]>().default([]),
@@ -23,7 +23,7 @@ export const pages = mysqlTable(
   (table) => ({
     pk: primaryKey({
       name: "users_pk",
-      columns: [table.storyId, table.pageId],
+      columns: [table.bookId, table.pageId],
     }),
   }),
 );
