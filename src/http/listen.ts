@@ -2,10 +2,11 @@ import { Embed } from "interactions.js";
 import { client } from "./client";
 import { getBook, setUserBook, getPage, resetUserVariables } from "../lib/db";
 import { handleVariables } from "../func/handleVariables";
+import { getOriginalInteractionResponse } from "../func/getOriginalInteractionResponse";
 import { handleBook } from "../func/handleBook";
 
 client.on("interactionCreate", async interaction => {
-  if (interaction.commandName === "story") {
+  if (interaction.isCommand("story")) {
     interaction.deferReply();
 
     const subcommand = interaction.options.data[0];
@@ -16,7 +17,12 @@ client.on("interactionCreate", async interaction => {
       case "new": {
         const bookId = subcommand.options[0].value;
         
-        const pageId = await setUserBook(interaction.member.id, bookId);
+        const message = await getOriginalInteractionResponse(interaction.client.applicationId, interaction.token);
+        if (!message) return interaction.editReply({
+          content: "An unexpected error has occured.",
+        });
+
+        const pageId = await setUserBook(interaction.member.id, bookId, message.id); // WIP
         if (typeof pageId !== "number") return interaction.editReply({
           content: "The story with the given book ID doesn't exist",
         });

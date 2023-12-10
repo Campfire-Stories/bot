@@ -33,7 +33,7 @@ export async function displayPage(interaction: any, bookId: number, pageId: numb
       if (choice.label) button.setLabel(choice.label);
 
       button.setDisabled(!choice.gotos.find(({ condition }) => evaluteExpression(condition, variables)));
-      button.setCustomId("???");
+      button.setCustomId(`choice-${pageInfo.choices.indexOf(choice)}`);
       
       actionRow.addComponent(button);
     }

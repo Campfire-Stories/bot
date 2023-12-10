@@ -54,30 +54,34 @@ export async function getUser(userId: string) {
   };
 }
 
-export async function setUserBook(userId: string, bookId: number) {
+export async function setUserBook(userId: string, bookId: number, messageId: string) {
   const pageId = await getBookFirstPage(bookId);
   if (typeof pageId !== "number") return null;
+
+  const messageIdBigInt = BigInt(messageId);
 
   await db
     .insert(users)
     .values({
       userId: BigInt(userId),
       bookId,
-      pageId
+      pageId,
+      messageId: messageIdBigInt
     })
     .onDuplicateKeyUpdate({
       set: {
         bookId,
-        pageId
+        pageId,
+        messageId: messageIdBigInt
       }
     });
   return pageId;
 }
 
-export async function setUserPage(userId: string, pageId: number) {
+export async function setUserPage(userId: string, pageId: number, messageId: string) {
   await db
     .update(users)
-    .set({ pageId })
+    .set({ pageId, messageId: BigInt(messageId) })
     .where(eq(users.userId, BigInt(userId)));
 }
 
@@ -87,7 +91,7 @@ export async function getUserVariables(userId: string) {
     .from(userVars)
     .where(
       and(
-        eq(userVars.userId, BigInt(userId)),
+        eq(userVars.userId, BigInt(userId))
       )
     );
 }

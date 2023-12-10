@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "0d76283e-ae3f-4811-936f-d03a925ba362",
+  "id": "1a1ec6bb-8371-4d8e-8bd4-e278193e8b48",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "books": {
@@ -148,6 +148,13 @@
         "page_id": {
           "name": "page_id",
           "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "message_id": {
+          "name": "message_id",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

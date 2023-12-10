@@ -13,6 +13,7 @@ export const users = mysqlTable(
     userId: bigint("user_id", { mode: "bigint", unsigned: true }).notNull().primaryKey(),
     bookId: int("book_id").notNull(),
     pageId: int("page_id").notNull(),
+    messageId: bigint("message_id", { mode: "bigint", unsigned: true }).notNull(),
   },
   (table) => ({
     reference: foreignKey({
