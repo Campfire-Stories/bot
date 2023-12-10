@@ -74,10 +74,10 @@ client.on("interactionCreate", async interaction => {
         content: "The game session of the message expired.",
       });
 
-      // WIP: This doesn't work
-      // if (user.messageId !== interaction.message.id) return interaction.editReply({
-      //   content: "This is not your interaction! (2)",
-      // });
+      // WIP: THIS DOESN'T WORK
+      if (user.messageId !== interaction.message.id) return interaction.editReply({
+        content: "This is not your interaction!",
+      });
 
       const pageInfo = await getPage(user.bookId, user.pageId);
       if (!pageInfo) return interaction.editReply({
