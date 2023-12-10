@@ -26,6 +26,7 @@
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
     "drizzle-orm": "^0.29.1",
+    "expr-eval": "^2.0.2",
     "interactions.js": "^1.2.15",
     "mysql2": "^3.6.5",
     "nodemon": "^3.0.2",

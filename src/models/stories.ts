@@ -7,7 +7,7 @@ import {
 export const stories = mysqlTable(
   "stories",
   {
-    storyId: int("story_id").primaryKey(),
+    storyId: int("story_id").notNull().primaryKey(),
 
     color: int("color").notNull().default(0xFFFFFF),
     name: varchar("name", { length: 256 }).notNull().default("A story name has not been set"),

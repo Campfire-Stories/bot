@@ -1,7 +1,17 @@
-import type { ButtonStyle } from "discord-api-types/v10";
+import type { APIEmbed, ButtonStyle } from "discord-api-types/v10";
+
+export interface Page {
+  storyId: number;
+  pageId: number;
+  
+  embeds: APIEmbed[],
+
+  vars: PageVar[],
+  choices: PageChoice[],
+}
 
 export interface PageVar {
-  key: string;
+  name: string;
   condition: string;
   value: string;
 };

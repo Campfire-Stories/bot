@@ -48,15 +48,15 @@ export async function getUser(userId: string) {
   if (!user) return null;
 
   return {
-    storyId: user.storyId,
+    storyId: user.storyId as number,
     userId: user.userId.toString(),
-    pageId: user.pageId,
+    pageId: user.pageId as number,
   };
 }
 
 export async function setUserStory(userId: string, storyId: number) {
   const pageId = await getStoryFirstPage(storyId);
-  if (typeof pageId !== "number") return false;
+  if (typeof pageId !== "number") return null;
 
   await db
     .insert(users)
@@ -71,7 +71,7 @@ export async function setUserStory(userId: string, storyId: number) {
         pageId
       }
     });
-  return true;
+  return pageId;
 }
 
 export async function setUserPage(userId: string, pageId: number) {
@@ -81,26 +81,22 @@ export async function setUserPage(userId: string, pageId: number) {
     .where(eq(users.userId, BigInt(userId)));
 }
 
-export async function getUserVar(userId: string, name: string) {
-  return (
-    await db
-      .select()
-      .from(userVars)
-      .where(
-        and(
-          eq(userVars.userId, BigInt(userId)),
-          eq(userVars.name, name)
-        )
+export async function getUserVariables(userId: string) {
+  return await db
+    .select()
+    .from(userVars)
+    .where(
+      and(
+        eq(userVars.userId, BigInt(userId)),
       )
-      .limit(1)
-  )[0] || 0;
+    );
 }
 
-export async function setUserVar(userId: string, name: string, value: number) {
+export async function setUserVariable(userId: string, name: string, value: number) {
   if (value != 0) {
     // Enforcing MySQL limits
     if (value < -2147483648) value = -2147483648;
-    if (value < 2147483647) value = 2147483647;
+    if (value > 2147483647) value = 2147483647;
 
     // If the value isn't 0, insert or update the row
     await db
@@ -124,4 +120,12 @@ export async function setUserVar(userId: string, name: string, value: number) {
         )
       );
   }
+}
+
+export async function resetUserVariables(userId: string) {
+  return await db
+    .delete(userVars)
+    .where(
+      eq(userVars.userId, BigInt(userId)),
+    );
 }

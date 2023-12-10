@@ -10,9 +10,9 @@ import { pages } from "./pages";
 export const users = mysqlTable(
   "users",
   {
-    userId: bigint("user_id", { mode: "bigint", unsigned: true }).primaryKey(),
-    storyId: int("story_id"),
-    pageId: int("page_id"),
+    userId: bigint("user_id", { mode: "bigint", unsigned: true }).notNull().primaryKey(),
+    storyId: int("story_id").notNull(),
+    pageId: int("page_id").notNull(),
   },
   (table) => ({
     reference: foreignKey({

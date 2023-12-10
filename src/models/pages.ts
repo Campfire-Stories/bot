@@ -12,13 +12,13 @@ import type { PageVar, PageChoice } from "../types/Page";
 export const pages = mysqlTable(
   "pages",
   {
-    storyId: int("story_id").references(() => stories.storyId),
-    pageId: int("page_id"),
+    storyId: int("story_id").notNull().references(() => stories.storyId),
+    pageId: int("page_id").notNull(),
     
-    embeds: json("embeds").$type<APIEmbed[]>().default([]),
+    embeds: json("embeds").notNull().$type<APIEmbed[]>().default([]),
 
-    vars: json("vars_actions").$type<PageVar[]>().default([]),
-    choices: json("choices").$type<PageChoice[]>().default([]),
+    vars: json("vars_actions").notNull().$type<PageVar[]>().default([]),
+    choices: json("choices").notNull().$type<PageChoice[]>().default([]),
   },
   (table) => ({
     pk: primaryKey({
