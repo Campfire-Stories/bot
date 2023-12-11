@@ -85,7 +85,7 @@ export async function displayPage(interaction: any, user: { bookId: number; page
     components,
   });
 
-  if (message.id !== messageId) {
+  if (message?.id && message.id !== messageId) {
     await setUserMessage(interaction.user.id, message.channelId, message.id);
   }
 }
