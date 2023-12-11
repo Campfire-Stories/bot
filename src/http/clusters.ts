@@ -12,5 +12,5 @@ for (let i = 0; i < clusterCount; i++) {
 }
 
 cluster.on("exit", worker => {
-  console.log(`#${worker.process.pid} Worker died.`);
+  console.warn(`#${worker.process.pid} Worker died.`);
 });

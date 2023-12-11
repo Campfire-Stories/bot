@@ -8,4 +8,4 @@ export const client = new Application({
   applicationId: env.DiscordClientId,
 });
 
-client.on("debug", debug => console.log(debug));
+client.on("debug", debug => console.debug(debug));
