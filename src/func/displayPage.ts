@@ -86,6 +86,6 @@ export async function displayPage(interaction: any, user: { bookId: number; page
   });
 
   if (message?.id && message.id !== messageId) {
-    await setUserMessage(interaction.user.id, message.channelId, message.id);
+    await setUserMessage(interaction.user.id, message.channel_id, message.id);
   }
 }
