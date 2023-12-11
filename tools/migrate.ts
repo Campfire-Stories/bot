@@ -11,6 +11,7 @@ import mysql from "mysql2/promise";
     password: env.DatabasePassword,
     database: env.DatabaseName,
     waitForConnections: true,
+    supportBigNumbers: true,
     connectionLimit: 10,
     queueLimit: 0,
   });

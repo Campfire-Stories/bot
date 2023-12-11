@@ -1,4 +1,4 @@
-export function transformUser(user: { bookId: number; userId: bigint; pageId: number; channelId: string; messageId: string }) { // : { bookId: number; userId: bigint; pageId: number; messageId: bigint }
+export function transformUser(user: { bookId: number; userId: bigint; pageId: number; channelId: bigint; messageId: bigint }) {
   return {
     bookId: user.bookId as number,
     userId: user.userId.toString(),

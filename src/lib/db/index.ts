@@ -54,8 +54,8 @@ export async function setUserBook(userId: string, bookId: number, channelId: str
   const pageId = await getBookFirstPage(bookId);
   if (typeof pageId !== "number") return null;
 
-  // const channelIdBigInt = BigInt(channelId);
-  // const messageIdBigInt = BigInt(messageId);
+  const channelIdBigInt = BigInt(channelId);
+  const messageIdBigInt = BigInt(messageId);
 
   await db
     .insert(users)
@@ -63,15 +63,15 @@ export async function setUserBook(userId: string, bookId: number, channelId: str
       userId: BigInt(userId),
       bookId,
       pageId,
-      channelId, // : channelIdBigInt
-      messageId, // : messageIdBigInt
+      channelId: channelIdBigInt,
+      messageId: messageIdBigInt,
     })
     .onDuplicateKeyUpdate({
       set: {
         bookId,
         pageId,
-        channelId, // : channelIdBigInt
-        messageId // : messageIdBigInt
+        channelId: channelIdBigInt,
+        messageId: messageIdBigInt,
       },
     });
   
@@ -88,8 +88,7 @@ export async function setUserPage(userId: string, pageId: number) {
 export async function setUserMessage(userId: string, channelId: string, messageId: string) {
   await db
     .update(users)
-    // .set({ pageId, channelId: BigInt(channelId), messageId: BigInt(messageId) })
-    .set({ channelId, messageId })
+    .set({ channelId: BigInt(channelId), messageId: BigInt(messageId) })
     .where(eq(users.userId, BigInt(userId)));
 }
 

@@ -44,4 +44,4 @@ client.setAppCommands([
       },
     ],
   },
-]).catch(console.log);
+]).catch(console.error);

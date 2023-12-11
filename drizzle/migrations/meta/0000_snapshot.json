@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "d81ced97-b1e6-4494-aaa0-11cb2f748c11",
+  "id": "292cca08-571b-4a9f-bf75-bbca30773001",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "books": {
@@ -154,14 +154,14 @@
         },
         "channel_id": {
           "name": "channel_id",
-          "type": "varchar(128)",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "message_id": {
           "name": "message_id",
-          "type": "varchar(128)",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

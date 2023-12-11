@@ -20,8 +20,8 @@ CREATE TABLE `users` (
 	`user_id` bigint unsigned NOT NULL,
 	`book_id` int NOT NULL,
 	`page_id` int NOT NULL,
-	`channel_id` varchar(128) NOT NULL,
-	`message_id` varchar(128) NOT NULL,
+	`channel_id` bigint unsigned NOT NULL,
+	`message_id` bigint unsigned NOT NULL,
 	CONSTRAINT `users_user_id` PRIMARY KEY(`user_id`)
 );
 --> statement-breakpoint
